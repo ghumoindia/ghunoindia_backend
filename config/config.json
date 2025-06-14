@@ -1,0 +1,45 @@
+{
+    "development": {
+        "port": 3000,
+        "db": {
+            "host": "localhost",
+            "port": 5432,
+            "user": "dev_user",
+            "password": "dev_password",
+            "database": "dev_db"
+        },
+        "logging": {
+            "level": "debug",
+            "file": "dev.log"
+        }
+
+    },
+    "production": {
+        "port": 8000,
+        "db": {
+            "host": "prod-db-server",
+            "port": 5432,
+            "user": "prod_user",
+            "password": "prod_password",
+            "database": "prod_db"
+        },
+        "logging": {
+            "level": "error",
+            "file": "prod.log"
+        }
+    },
+    "test": {
+        "port": 4000,
+        "db": {
+            "host": "localhost",
+            "port": 5432,
+            "user": "test_user",
+            "password": "test_password",
+            "database": "test_db"
+        },
+        "logging": {
+            "level": "warn",
+            "file": "test.log"
+        }
+    }
+}
