@@ -1,4 +1,3 @@
-const { Router } = require("express");
 const {
   adminRegisterValidator,
   loginValidator,
@@ -13,35 +12,36 @@ const {
   refreshToken,
   resetPassword,
   logoutAdmin,
+  forgotPassword,
 } = require("../../controllers/admin/admin.controller");
 const { verifyAdminJWTToken } = require("../../middlewares/auth.middleware");
+const express = require("express");
 
-const router = Router();
-
+const router = express.Router();
 router.post(
   "/register",
-  adminRegisterValidator,
+  adminRegisterValidator(),
   validateRequest,
   registerAdmin
 );
 
-router.post("/login", loginValidator, validateRequest, loginAdmin);
+router.post("/login", loginValidator(), validateRequest, loginAdmin);
 
 router.post(
   "/refresh-token",
-  refreshTokenValidator,
+  refreshTokenValidator(),
   validateRequest,
   refreshToken
 );
 router.post(
   "/forget-password",
-  forgetPasswordValidator,
+  forgetPasswordValidator(),
   validateRequest,
-  forgetPasswordValidator
+  forgotPassword
 );
 router.post(
   "/reset-password/:token",
-  resetPasswordValidator,
+  resetPasswordValidator(),
   validateRequest,
   resetPassword
 );

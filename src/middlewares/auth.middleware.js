@@ -29,5 +29,4 @@ const verifyAdminJWTToken = (req, res, next) => {
 
 module.exports = {
   verifyAdminJWTToken,
-  validateRequest,
 };

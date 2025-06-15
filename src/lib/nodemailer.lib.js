@@ -13,13 +13,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-/**
- * Send Email Utility
- * @param {string} to - Recipient email
- * @param {string} subject - Email subject
- * @param {string} html - Email HTML content
- */
 const sendMail = async ({ to, subject, html }) => {
+  console.log(
+    "SendInBlue Mail ID:",
+    sendInBlueMailId,
+    "SendInBlue Mail Pass:",
+    sendInBlueMailPass
+  );
   try {
     const mailOptions = {
       from: sendInBlueMailId,

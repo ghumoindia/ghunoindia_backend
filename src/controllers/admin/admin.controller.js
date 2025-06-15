@@ -1,15 +1,16 @@
-const Admin = require("../models/admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { transporter } = require("../../lib/nodemailer.lib");
+const { transporter, sendMail } = require("../../lib/nodemailer.lib");
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 const crypto = require("crypto");
+const Admin = require("../../../models/admin");
+const { sendInBlueMailId } = require("../../../constant/constants");
 
 const registerAdmin = async (req, res) => {
   try {
     const { name, email, password, phone, role } = req.body;
-
+    console.log("Registering admin:", { name, email, phone, role });
     const existing = await Admin.findOne({ email });
     if (existing)
       return res.status(400).json({ message: "Admin already exists" });
@@ -54,8 +55,19 @@ const loginAdmin = async (req, res) => {
     admin.refreshToken = refresh;
     admin.lastLogin = new Date();
     await admin.save();
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "development",
+      maxAge: 60 * 60 * 1000, // 1 hour
+    });
 
-    res.status(200).json({ token, refreshToken: refresh });
+    res.cookie("refreshToken", refresh, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "development",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    res.status(200).json({ id: admin.id, token, refreshToken: refresh });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
@@ -86,15 +98,16 @@ const refreshToken = async (req, res) => {
 
 const logoutAdmin = async (req, res) => {
   try {
-    const { refreshToken } = req.body;
-    if (!refreshToken)
-      return res.status(400).json({ message: "Missing token" });
+    const { adminId } = req.body;
 
-    const admin = await Admin.findOne({ refreshToken });
-    if (admin) {
-      admin.refreshToken = null;
-      await admin.save();
-    }
+    if (!adminId) return res.status(400).json({ message: "Missing admin ID" });
+
+    const admin = await Admin.findById(adminId);
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+    admin.refreshToken = null;
+    admin.lastLogin = new Date();
+    await admin.save();
 
     res.json({ message: "Logged out successfully" });
   } catch (err) {
@@ -113,10 +126,15 @@ const forgotPassword = async (req, res) => {
     await admin.save();
 
     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${token}`;
-
+    console.log(
+      "Reset link:",
+      resetLink,
+      "for email:",
+      email,
+      sendInBlueMailId
+    );
     // Send email
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    await sendMail({
       to: admin.email,
       subject: "Password Reset Request",
       html: `<p>You requested a password reset. Click <a href="${resetLink}">here</a> to reset your password. If you didn't request this, please ignore.</p>`,

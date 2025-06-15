@@ -30,7 +30,7 @@ const adminSchema = new mongoose.Schema(
         "car-manager",
         "guide-manager",
       ],
-      default: "content-manager",
+      default: "super-admin",
     },
     isBlocked: {
       type: Boolean,

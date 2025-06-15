@@ -1,8 +1,10 @@
 // node mailer data
+const dotenv = require("dotenv");
+dotenv.config();
 
-const sendInBlueMailId = "roshanchouhan29@gmail.com";
+const sendInBlueMailId = process.env.SendInBlueMailId;
 
-const sendInBlueMailPass = "roshan1234";
+const sendInBlueMailPass = process.env.SendInBlueMailPass;
 
 const BaseUrl = process.env.BASE_URL;
 
