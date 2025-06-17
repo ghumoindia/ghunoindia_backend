@@ -1,10 +1,10 @@
-const { body, param } = require("express-validator");
+const { body, param, check } = require("express-validator");
 
 const stateCreateValidator = () => {
   return [
-    body("title").notEmpty().withMessage("Title is required"),
-    body("subtitle").notEmpty().withMessage("Subtitle is required"),
-    body("coverImage").notEmpty().withMessage("Cover image is required"),
+    check("title").notEmpty().withMessage("Title is required"),
+    check("subtitle").notEmpty().withMessage("Subtitle is required"),
+    check("about").notEmpty().withMessage("about is required"),
   ];
 };
 const stateUpdateValidator = () => {

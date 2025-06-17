@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const stateController = require("../controllers/stateController");
 
 const { body } = require("express-validator");
 const {
@@ -13,37 +12,45 @@ const {
   getAllStates,
   updateState,
   deleteState,
+  getStateById,
 } = require("../../controllers/admin/state.controller");
 const {
   validateRequest,
   isAdminHaveAccess,
 } = require("../../middlewares/vaildate.middleware");
 const { verifyAdminJWTToken } = require("../../middlewares/auth.middleware");
+const { uploadImages } = require("../../utils/multerFile");
 
 // Only super-admin & content-manager can perform these actions
 const allowedRoles = ["super-admin", "content-manager"];
 
 router.post(
-  "/admin/v1/createState",
+  "/createState",
   verifyAdminJWTToken,
   isAdminHaveAccess(...allowedRoles),
+  uploadImages,
   stateCreateValidator(),
   validateRequest,
   createState
 );
 
 router.get(
-  "/admin/v1/allState",
+  "/allState",
   verifyAdminJWTToken,
   isAdminHaveAccess(...allowedRoles),
   validateRequest,
   getAllStates
 );
 
-router.get("/admin/v1/getStateByID/:id", stateController.getStateById);
+router.get(
+  "/getStateByID/:id",
+  verifyAdminJWTToken,
+  validateRequest,
+  getStateById
+);
 
 router.put(
-  "/admin/v1/updateStateById/:id",
+  "/updateStateById/:id",
   verifyAdminJWTToken,
   isAdminHaveAccess(...allowedRoles),
   stateUpdateValidator(),
@@ -52,7 +59,7 @@ router.put(
 );
 
 router.delete(
-  "/admin/v1/deleteStateById/:id",
+  "/deleteStateById/:id",
   verifyAdminJWTToken,
   isAdminHaveAccess(...allowedRoles),
   stateDeleteValidator(),

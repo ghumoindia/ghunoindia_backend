@@ -1,4 +1,4 @@
-const State = require("../models/State");
+const State = require("../../../models/state");
 
 // Create a new state
 const createState = async (req, res) => {
