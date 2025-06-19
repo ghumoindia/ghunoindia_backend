@@ -4,6 +4,10 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const adminAuthRoutes = require("./routes/admin/admin.routes");
 const stateRoutes = require("./routes/admin/state.routes");
+const cities = require("./routes/admin/cities.routes");
+const places = require("./routes/admin/places.routes");
+
+const { adminUrl } = require("./constant");
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -12,7 +16,9 @@ app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
 
 // adminRoutes
-app.use("/admin/v1/auth", adminAuthRoutes);
-app.use("/admin/v1/state", stateRoutes);
+app.use(`${adminUrl}/auth`, adminAuthRoutes);
+app.use(`${adminUrl}/state`, stateRoutes);
+app.use(`${adminUrl}/cities`, cities);
+app.use(`${adminUrl}/places`, places);
 
 module.exports = app;

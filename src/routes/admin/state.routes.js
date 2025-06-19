@@ -20,9 +20,9 @@ const {
 } = require("../../middlewares/vaildate.middleware");
 const { verifyAdminJWTToken } = require("../../middlewares/auth.middleware");
 const { uploadImages } = require("../../utils/multerFile");
+const { allowedRoles } = require("../../constant");
 
 // Only super-admin & content-manager can perform these actions
-const allowedRoles = ["super-admin", "content-manager"];
 
 router.post(
   "/createState",
