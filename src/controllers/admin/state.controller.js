@@ -1,10 +1,37 @@
 const State = require("../../../models/state");
+const {
+  formatImage,
+  formatMultipleImages,
+} = require("../../utils/ImageFormter");
 
 // Create a new state
 const createState = async (req, res) => {
   try {
-    const state = new State(req.body);
+    const { body, files } = req;
+
+    const stateData = {
+      ...body,
+      coverImage: files?.coverImage?.[0]
+        ? formatImage(files.coverImage[0])
+        : undefined,
+      slideshowImages: files?.slideshowImages
+        ? formatMultipleImages(files.slideshowImages)
+        : [],
+    };
+
+    if (typeof stateData.cityIds === "string") {
+      stateData.cityIds = JSON.parse(stateData.cityIds);
+    }
+    if (typeof stateData.placeIds === "string") {
+      stateData.placeIds = JSON.parse(stateData.placeIds);
+    }
+    if (typeof stateData.foodIds === "string") {
+      stateData.foodIds = JSON.parse(stateData.foodIds);
+    }
+
+    const state = new State(stateData);
     await state.save();
+
     res.status(201).json({ message: "State created", state });
   } catch (err) {
     res
