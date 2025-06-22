@@ -12,9 +12,9 @@ const verifyAdminJWTToken = (req, res, next) => {
     } else {
       return res.status(401).json({ message: "Authorization token missing" });
     }
-
+    console.log("authHeader", authHeader, "token", req.cookies.accessToken);
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+    console.log("decoded", decoded, "token", req.files, "req.body", req.body);
     req.admin = {
       id: decoded.id,
       role: decoded.role,

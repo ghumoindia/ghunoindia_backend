@@ -44,9 +44,11 @@ const createState = async (req, res) => {
 const getAllStates = async (req, res) => {
   try {
     const states = await State.find()
+
       .populate("cityIds", "name")
       .populate("placeIds", "name")
       .populate("foodIds", "name");
+
     res.status(200).json(states);
   } catch (err) {
     res
@@ -74,15 +76,36 @@ const getStateById = async (req, res) => {
 // Update state
 const updateState = async (req, res) => {
   try {
-    const state = await State.findByIdAndUpdate(req.params.id, req.body, {
+    const updateData = { ...req.body };
+
+    console.log("req.body", req.body);
+
+    if (req.files?.coverImage?.[0]) {
+      updateData.coverImage = formatImage(req.files.coverImage[0]);
+    }
+
+    if (req.files?.slideshowImages) {
+      updateData.slideshowImages = formatMultipleImages(
+        req.files.slideshowImages
+      );
+    }
+
+    if (typeof updateData.cityIds === "string")
+      updateData.cityIds = JSON.parse(updateData.cityIds);
+    if (typeof updateData.placeIds === "string")
+      updateData.placeIds = JSON.parse(updateData.placeIds);
+    if (typeof updateData.foodIds === "string")
+      updateData.foodIds = JSON.parse(updateData.foodIds);
+
+    const state = await State.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
     });
+
     if (!state) return res.status(404).json({ message: "State not found" });
-    res.status(200).json({ message: "State updated", state });
+
+    res.status(200).json({ message: "State updated->", state });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to update state", error: err.message });
+    res.status(500).json({ message: "Update failed", error: err.message });
   }
 };
 

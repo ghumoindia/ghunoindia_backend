@@ -45,6 +45,7 @@ router.get(
 router.put(
   "/updatePlaceById/:id",
   verifyAdminJWTToken,
+  uploadImages,
   isAdminHaveAccess(...allowedRoles),
   placeUpdateValidator(),
   validateRequest,

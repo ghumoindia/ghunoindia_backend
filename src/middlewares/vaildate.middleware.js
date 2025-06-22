@@ -10,6 +10,7 @@ const validateRequest = (req, res, next) => {
 
 const isAdminHaveAccess = (...roles) => {
   return (req, res, next) => {
+    console.log("req.admin", req.admin);
     if (!req.admin || !roles.includes(req.admin.role)) {
       return res
         .status(403)

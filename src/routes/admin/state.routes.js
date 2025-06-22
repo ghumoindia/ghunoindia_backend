@@ -52,6 +52,7 @@ router.get(
 router.put(
   "/updateStateById/:id",
   verifyAdminJWTToken,
+  uploadImages,
   isAdminHaveAccess(...allowedRoles),
   stateUpdateValidator(),
   validateRequest,

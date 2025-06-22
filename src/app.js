@@ -6,6 +6,7 @@ const adminAuthRoutes = require("./routes/admin/admin.routes");
 const stateRoutes = require("./routes/admin/state.routes");
 const cities = require("./routes/admin/cities.routes");
 const places = require("./routes/admin/places.routes");
+const foods = require("./routes/admin/foods.routes");
 
 const { adminUrl } = require("./constant");
 // Middleware
@@ -20,5 +21,6 @@ app.use(`${adminUrl}/auth`, adminAuthRoutes);
 app.use(`${adminUrl}/state`, stateRoutes);
 app.use(`${adminUrl}/cities`, cities);
 app.use(`${adminUrl}/places`, places);
+app.use(`${adminUrl}/foods`, foods);
 
 module.exports = app;

@@ -1,64 +1,66 @@
 const express = require("express");
-const {
-  createCity,
-  getAllCities,
-  getCityById,
-  updateCity,
-  deleteCity,
-} = require("../../controllers/admin/cities.controller");
+const { verifyAdminJWTToken } = require("../../middlewares/auth.middleware");
+const { allowedRoles } = require("../../constant");
+
 const {
   validateRequest,
   isAdminHaveAccess,
 } = require("../../middlewares/vaildate.middleware");
-const { uploadImages } = require("../../utils/multerFile");
-const { verifyAdminJWTToken } = require("../../middlewares/auth.middleware");
-const { allowedRoles } = require("../../constant");
 const {
-  cityUpdateValidator,
-  cityDeleteValidator,
-  cityCreateValidator,
-} = require("../../vaildators/cities.vaildators");
+  createFood,
+  getAllFoods,
+  getFoodById,
+  updateFood,
+  deleteFood,
+} = require("../../controllers/admin/foods.controller");
+const { uploadImages } = require("../../utils/multerFile");
+const {
+  foodCreateValidator,
+  foodUpdateValidator,
+  foodDeleteValidator,
+} = require("../../vaildators/foods.vaildators");
+
 const router = express.Router();
 
 router.post(
-  "/createCity",
+  "/createFood",
   verifyAdminJWTToken,
   isAdminHaveAccess(...allowedRoles),
   uploadImages,
-  cityCreateValidator(),
+  foodCreateValidator(),
   validateRequest,
-  createCity
+  createFood
 );
 router.get(
-  "/allCities",
+  "/allFoods",
   verifyAdminJWTToken,
   isAdminHaveAccess(...allowedRoles),
   validateRequest,
-  getAllCities
+  getAllFoods
 );
 
 router.get(
-  "/getCityByID/:id",
+  "/getFoodByID/:id",
   verifyAdminJWTToken,
   validateRequest,
-  getCityById
+  getFoodById
 );
 router.put(
-  "/updateCityById/:id",
+  "/updateFoodById/:id",
   verifyAdminJWTToken,
   uploadImages,
   isAdminHaveAccess(...allowedRoles),
-  cityUpdateValidator(),
+  foodUpdateValidator(),
   validateRequest,
-  updateCity
+  updateFood
 );
 router.delete(
-  "/deleteCityById/:id",
+  "/deleteFoodById/:id",
   verifyAdminJWTToken,
   isAdminHaveAccess(...allowedRoles),
-  cityDeleteValidator(),
+  foodDeleteValidator(),
   validateRequest,
-  deleteCity
+  deleteFood
 );
 
 module.exports = router;
