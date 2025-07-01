@@ -2,7 +2,7 @@ const { body, param } = require("express-validator");
 
 const adminRegisterValidator = () => {
   return [
-    body("name").notEmpty().withMessage("Name is required"),
+    body("firstName").notEmpty().withMessage("Name is required"),
     body("email").isEmail().withMessage("Valid email is required"),
     body("password")
       .isLength({ min: 6 })
@@ -18,6 +18,7 @@ const adminRegisterValidator = () => {
         "hotel-manager",
         "car-manager",
         "guide-manager",
+        "admin",
       ])
       .withMessage("Invalid role"),
   ];

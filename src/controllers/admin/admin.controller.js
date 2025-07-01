@@ -9,8 +9,8 @@ const { sendInBlueMailId } = require("../../../constant/constants");
 
 const registerAdmin = async (req, res) => {
   try {
-    const { name, email, password, phone, role } = req.body;
-    console.log("Registering admin:", { name, email, phone, role });
+    const { firstName, lastName, email, password, phone, role } = req.body;
+
     const existing = await Admin.findOne({ email });
     if (existing)
       return res.status(400).json({ message: "Admin already exists" });
@@ -18,7 +18,8 @@ const registerAdmin = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const admin = await Admin.create({
-      name,
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
       phone,

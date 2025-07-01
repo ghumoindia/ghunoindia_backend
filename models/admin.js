@@ -2,9 +2,14 @@ const mongoose = require("mongoose");
 
 const adminSchema = new mongoose.Schema(
   {
-    name: {
+    firstName: {
       type: String,
-      required: [true, "Name is required"],
+      required: false,
+      trim: true,
+    },
+    lastName: {
+      type: String,
+      required: false,
       trim: true,
     },
     email: {
@@ -29,6 +34,7 @@ const adminSchema = new mongoose.Schema(
         "hotel-manager",
         "car-manager",
         "guide-manager",
+        "admin",
       ],
       default: "super-admin",
     },
