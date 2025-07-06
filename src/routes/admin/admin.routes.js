@@ -29,7 +29,7 @@ router.post("/login", loginValidator(), validateRequest, loginAdmin);
 
 router.post(
   "/refresh-token",
-  refreshTokenValidator(),
+  // refreshTokenValidator(),
   validateRequest,
   refreshToken
 );

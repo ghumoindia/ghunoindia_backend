@@ -7,8 +7,8 @@ const {
 // Create a new state
 const createState = async (req, res) => {
   try {
-    const { body, files } = req;
-
+    const { body, files, file } = req;
+    console.log("req.body", body, "req.files", files, file);
     const stateData = {
       ...body,
       coverImage: files?.coverImage?.[0]
@@ -32,7 +32,7 @@ const createState = async (req, res) => {
     const state = new State(stateData);
     await state.save();
 
-    res.status(201).json({ message: "State created", state });
+    res.status(200).json({ success: true, message: "State created", state });
   } catch (err) {
     res
       .status(500)
@@ -49,7 +49,7 @@ const getAllStates = async (req, res) => {
       .populate("placeIds", "name")
       .populate("foodIds", "name");
 
-    res.status(200).json(states);
+    res.status(200).json({ success: true, states });
   } catch (err) {
     res
       .status(500)
@@ -65,7 +65,7 @@ const getStateById = async (req, res) => {
       .populate("placeIds", "name")
       .populate("foodIds", "name");
     if (!state) return res.status(404).json({ message: "State not found" });
-    res.status(200).json(state);
+    res.status(200).json({ success: true, state });
   } catch (err) {
     res
       .status(500)
@@ -103,7 +103,7 @@ const updateState = async (req, res) => {
 
     if (!state) return res.status(404).json({ message: "State not found" });
 
-    res.status(200).json({ message: "State updated->", state });
+    res.status(200).json({ message: "State updated", state });
   } catch (err) {
     res.status(500).json({ message: "Update failed", error: err.message });
   }

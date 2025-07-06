@@ -68,7 +68,18 @@ const loginAdmin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    res.status(200).json({ id: admin.id, token, refreshToken: refresh });
+    const adminData = {
+      id: admin._id,
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      email: admin.email,
+      phone: admin.phone,
+      role: admin.role,
+    };
+
+    res
+      .status(200)
+      .json({ adminData: adminData, token, refreshToken: refresh });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
@@ -76,20 +87,40 @@ const loginAdmin = async (req, res) => {
 
 const refreshToken = async (req, res) => {
   try {
-    const { refreshToken } = req.body;
-    if (!refreshToken)
-      return res.status(401).json({ message: "Refresh token missing" });
+    const refreshToken = req.headers.authorization;
 
-    const payload = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+    let token;
+    if (refreshToken && refreshToken.startsWith("Bearer ")) {
+      token = refreshToken.split(" ")[1];
+    } else if (req.cookies && req.cookies.refreshToken) {
+      token = req.cookies.refreshToken;
+    } else {
+      return res.status(401).json({ message: "Refresh token missing" });
+    }
+
+    const payload = jwt.verify(token, JWT_REFRESH_SECRET);
     const admin = await Admin.findById(payload.id);
 
-    if (!admin || admin.refreshToken !== refreshToken)
+    if (!admin || admin.refreshToken !== token)
       return res.status(403).json({ message: "Invalid token" });
+
+    const adminData = {
+      id: admin._id,
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      email: admin.email,
+      phone: admin.phone,
+      role: admin.role,
+    };
 
     const newToken = jwt.sign({ id: admin._id, role: admin.role }, JWT_SECRET, {
       expiresIn: "1h",
     });
-    res.json({ token: newToken });
+    res.status(200).json({
+      adminData,
+      token: newToken,
+      refreshToken: admin.refreshToken,
+    });
   } catch (err) {
     res
       .status(403)
@@ -100,7 +131,7 @@ const refreshToken = async (req, res) => {
 const logoutAdmin = async (req, res) => {
   try {
     const { adminId } = req.body;
-
+    console.log("Admin ID:", adminId);
     if (!adminId) return res.status(400).json({ message: "Missing admin ID" });
 
     const admin = await Admin.findById(adminId);
