@@ -17,32 +17,36 @@ const createCity = async (req, res) => {
         : [],
     };
 
-    if (typeof cityData.placeIds === "string")
-      cityData.placeIds = JSON.parse(cityData.placeIds);
-    if (typeof cityData.foodIds === "string")
-      cityData.foodIds = JSON.parse(cityData.foodIds);
-    if (typeof cityData.stateId === "string")
-      cityData.stateId = JSON.parse(cityData.stateId);
+    // if (typeof cityData.placeIds === "string")
+    //   cityData.placeIds = JSON.parse(cityData.placeIds);
+    // if (typeof cityData.foodIds === "string")
+    //   cityData.foodIds = JSON.parse(cityData.foodIds);
+    // if (typeof cityData.stateId === "string")
+    //   cityData.stateId = JSON.parse(cityData.stateId);
 
     const city = new City(cityData);
     await city.save();
 
-    res.status(201).json({ message: "City created", city });
+    res.status(201).json({ success: true, message: "City created", city });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to create city", error: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to create city",
+      error: err.message,
+    });
   }
 };
 
 const getAllCities = async (req, res) => {
   try {
     const cities = await City.find();
-    res.json(cities);
+    res.json({ success: true, message: "city list ", cities });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to fetch cities", error: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch cities",
+      error: err.message,
+    });
   }
 };
 
@@ -50,11 +54,13 @@ const getCityById = async (req, res) => {
   try {
     const city = await City.findById(req.params.id);
     if (!city) return res.status(404).json({ message: "City not found" });
-    res.json(city);
+    res.json({ success: true, message: "get successfully", city });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to fetch city", error: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch city",
+      error: err.message,
+    });
   }
 };
 
@@ -86,11 +92,13 @@ const updateCity = async (req, res) => {
     });
     if (!city) return res.status(404).json({ message: "City not found" });
 
-    res.json({ message: "City updated", city });
+    res.json({ success: true, message: "City updated", city });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to update city", error: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to update city",
+      error: err.message,
+    });
   }
 };
 
@@ -98,11 +106,13 @@ const deleteCity = async (req, res) => {
   try {
     const city = await City.findByIdAndDelete(req.params.id);
     if (!city) return res.status(404).json({ message: "City not found" });
-    res.json({ message: "City deleted" });
+    res.json({ success: true, message: "City deleted" });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to delete city", error: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete city",
+      error: err.message,
+    });
   }
 };
 

@@ -90,12 +90,12 @@ const updateState = async (req, res) => {
       );
     }
 
-    if (typeof updateData.cityIds === "string")
-      updateData.cityIds = JSON.parse(updateData.cityIds);
-    if (typeof updateData.placeIds === "string")
-      updateData.placeIds = JSON.parse(updateData.placeIds);
-    if (typeof updateData.foodIds === "string")
-      updateData.foodIds = JSON.parse(updateData.foodIds);
+    // if (typeof updateData.cityIds === "string")
+    //   updateData.cityIds = JSON.parse(updateData.cityIds);
+    // if (typeof updateData.placeIds === "string")
+    //   updateData.placeIds = JSON.parse(updateData.placeIds);
+    // if (typeof updateData.foodIds === "string")
+    //   updateData.foodIds = JSON.parse(updateData.foodIds);
 
     const state = await State.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
@@ -103,9 +103,11 @@ const updateState = async (req, res) => {
 
     if (!state) return res.status(404).json({ message: "State not found" });
 
-    res.status(200).json({ message: "State updated", state });
+    res.status(200).json({ success: true, message: "State updated", state });
   } catch (err) {
-    res.status(500).json({ message: "Update failed", error: err.message });
+    res
+      .status(500)
+      .json({ success: false, message: "Update failed", error: err.message });
   }
 };
 

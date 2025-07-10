@@ -3,24 +3,26 @@ const imageSchema = require("./image");
 
 const citySchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    state: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "State",
-      required: true,
-    },
+    title: { type: String, required: true },
+    subtitle: String,
+
     image: String,
     about: String,
     coverImage: imageSchema,
     slideshowImages: [imageSchema],
+    state: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "State",
+      required: false,
+    },
     placeIds: [
       {
         value: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Place",
-          required: true,
+          required: false,
         },
-        label: { type: String, required: true },
+        label: { type: String, required: false },
       },
     ],
     foodIds: [
@@ -28,9 +30,9 @@ const citySchema = new mongoose.Schema(
         value: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Food",
-          required: true,
+          required: false,
         },
-        label: { type: String, required: true },
+        label: { type: String, required: false },
       },
     ],
   },
