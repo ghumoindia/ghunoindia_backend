@@ -19,15 +19,15 @@ const createState = async (req, res) => {
         : [],
     };
 
-    if (typeof stateData.cityIds === "string") {
-      stateData.cityIds = JSON.parse(stateData.cityIds);
-    }
-    if (typeof stateData.placeIds === "string") {
-      stateData.placeIds = JSON.parse(stateData.placeIds);
-    }
-    if (typeof stateData.foodIds === "string") {
-      stateData.foodIds = JSON.parse(stateData.foodIds);
-    }
+    // if (typeof stateData.cityIds === "string") {
+    //   stateData.cityIds = JSON.parse(stateData.cityIds);
+    // }
+    // if (typeof stateData.placeIds === "string") {
+    //   stateData.placeIds = JSON.parse(stateData.placeIds);
+    // }
+    // if (typeof stateData.foodIds === "string") {
+    //   stateData.foodIds = JSON.parse(stateData.foodIds);
+    // }
 
     const state = new State(stateData);
     await state.save();
@@ -114,11 +114,13 @@ const deleteState = async (req, res) => {
   try {
     const state = await State.findByIdAndDelete(req.params.id);
     if (!state) return res.status(404).json({ message: "State not found" });
-    res.status(200).json({ message: "State deleted" });
+    res.status(200).json({ success: true, message: "State deleted" });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Failed to delete state", error: err.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete state",
+      error: err.message,
+    });
   }
 };
 
