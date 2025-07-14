@@ -17,12 +17,21 @@ const createCity = async (req, res) => {
         : [],
     };
 
-    // if (typeof cityData.placeIds === "string")
-    //   cityData.placeIds = JSON.parse(cityData.placeIds);
-    // if (typeof cityData.foodIds === "string")
-    //   cityData.foodIds = JSON.parse(cityData.foodIds);
-    // if (typeof cityData.stateId === "string")
-    //   cityData.stateId = JSON.parse(cityData.stateId);
+    if (typeof cityData.placeIds === "string") {
+      cityData.placeIds = JSON.parse(cityData.placeIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof cityData.foodIds === "string") {
+      cityData.foodIds = JSON.parse(cityData.foodIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof cityData.stateIds === "string") {
+      cityData.stateIds = JSON.parse(cityData.stateIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
 
     const city = new City(cityData);
     await city.save();
@@ -79,13 +88,21 @@ const updateCity = async (req, res) => {
         data.slideshowImages = formatMultipleImages(slideshowImages);
       }
     }
-
-    if (typeof data.placeIds === "string")
-      data.placeIds = JSON.parse(data.placeIds);
-    if (typeof data.foodIds === "string")
-      data.foodIds = JSON.parse(data.foodIds);
-    if (typeof data.stateId === "string")
-      data.stateId = JSON.parse(data.stateId);
+    if (typeof data.placeIds === "string") {
+      data.placeIds = JSON.parse(data.placeIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof data.foodIds === "string") {
+      data.foodIds = JSON.parse(data.foodIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof data.stateIds === "string") {
+      data.stateIds = JSON.parse(data.stateIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
 
     const city = await City.findByIdAndUpdate(req.params.id, data, {
       new: true,

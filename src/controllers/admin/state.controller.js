@@ -18,16 +18,21 @@ const createState = async (req, res) => {
         ? formatMultipleImages(files.slideshowImages)
         : [],
     };
-
-    // if (typeof stateData.cityIds === "string") {
-    //   stateData.cityIds = JSON.parse(stateData.cityIds);
-    // }
-    // if (typeof stateData.placeIds === "string") {
-    //   stateData.placeIds = JSON.parse(stateData.placeIds);
-    // }
-    // if (typeof stateData.foodIds === "string") {
-    //   stateData.foodIds = JSON.parse(stateData.foodIds);
-    // }
+    if (typeof stateData.cityIds === "string") {
+      stateData.cityIds = JSON.parse(stateData.cityIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof stateData.placeIds === "string") {
+      stateData.placeIds = JSON.parse(stateData.placeIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof stateData.foodIds === "string") {
+      stateData.foodIds = JSON.parse(stateData.foodIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
 
     const state = new State(stateData);
     await state.save();
@@ -90,12 +95,21 @@ const updateState = async (req, res) => {
       );
     }
 
-    // if (typeof updateData.cityIds === "string")
-    //   updateData.cityIds = JSON.parse(updateData.cityIds);
-    // if (typeof updateData.placeIds === "string")
-    //   updateData.placeIds = JSON.parse(updateData.placeIds);
-    // if (typeof updateData.foodIds === "string")
-    //   updateData.foodIds = JSON.parse(updateData.foodIds);
+    if (typeof updateData.cityIds === "string") {
+      updateData.cityIds = JSON.parse(updateData.cityIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof updateData.placeIds === "string") {
+      updateData.placeIds = JSON.parse(updateData.placeIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof updateData.foodIds === "string") {
+      updateData.foodIds = JSON.parse(updateData.foodIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
 
     const state = await State.findByIdAndUpdate(req.params.id, updateData, {
       new: true,

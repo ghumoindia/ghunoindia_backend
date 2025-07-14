@@ -7,38 +7,15 @@ const stateSchema = new mongoose.Schema(
     subtitle: String,
     about: String,
     coverImage: imageSchema,
-
     slideshowImages: [imageSchema],
-
     cityIds: [
-      {
-        value: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "City",
-          required: true,
-        },
-        label: { type: String, required: true },
-      },
+      { type: mongoose.Schema.Types.ObjectId, ref: "City", required: false },
     ],
     placeIds: [
-      {
-        value: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Place",
-          required: true,
-        },
-        label: { type: String, required: true },
-      },
+      { type: mongoose.Schema.Types.ObjectId, ref: "Places", required: false },
     ],
     foodIds: [
-      {
-        value: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Food",
-          required: true,
-        },
-        label: { type: String, required: true },
-      },
+      { type: mongoose.Schema.Types.ObjectId, ref: "Foods", required: false },
     ],
   },
   { timestamps: true }

@@ -10,30 +10,19 @@ const citySchema = new mongoose.Schema(
     about: String,
     coverImage: imageSchema,
     slideshowImages: [imageSchema],
-    state: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "State",
-      required: false,
-    },
-    placeIds: [
+    stateIds: [
       {
-        value: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Place",
-          required: false,
-        },
-        label: { type: String, required: false },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "State",
+        required: false,
       },
     ],
+
+    placeIds: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Places", required: false },
+    ],
     foodIds: [
-      {
-        value: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Food",
-          required: false,
-        },
-        label: { type: String, required: false },
-      },
+      { type: mongoose.Schema.Types.ObjectId, ref: "Foods", required: false },
     ],
   },
   { timestamps: true }

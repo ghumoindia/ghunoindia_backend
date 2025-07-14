@@ -4,6 +4,7 @@ const imageSchema = require("./image");
 const foodSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
+    subtitle: String,
     about: String,
     coverImage: imageSchema,
     slideshowImages: [imageSchema],
