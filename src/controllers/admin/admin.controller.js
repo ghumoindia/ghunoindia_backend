@@ -99,6 +99,8 @@ const refreshToken = async (req, res) => {
     }
 
     const payload = jwt.verify(token, JWT_REFRESH_SECRET);
+
+    console.log("Payload:", payload);
     const admin = await Admin.findById(payload.id);
 
     if (!admin || admin.refreshToken !== token)
@@ -116,6 +118,7 @@ const refreshToken = async (req, res) => {
     const newToken = jwt.sign({ id: admin._id, role: admin.role }, JWT_SECRET, {
       expiresIn: "1h",
     });
+
     res.status(200).json({
       adminData,
       token: newToken,

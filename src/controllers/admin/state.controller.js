@@ -83,7 +83,7 @@ const updateState = async (req, res) => {
   try {
     const updateData = { ...req.body };
 
-    console.log("req.body", req.body);
+    console.log("req.body", req.body, req.files);
 
     if (req.files?.coverImage?.[0]) {
       updateData.coverImage = formatImage(req.files.coverImage[0]);
@@ -110,7 +110,7 @@ const updateState = async (req, res) => {
         id.replace(/['"]+/g, "")
       );
     }
-
+    console.log("updateData", updateData);
     const state = await State.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
     });
