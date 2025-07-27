@@ -5,7 +5,7 @@ const {
 } = require("../../controllers/user/foods.controllers");
 const router = express.Router();
 
-router.get("/getFoodByID/:id", getFoodById);
+router.get("/getFoodById/:id", getFoodById);
 router.post("/getFoodByAllIds", getFoodByAllIds);
 
 module.exports = router;
