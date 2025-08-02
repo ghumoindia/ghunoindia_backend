@@ -17,6 +17,16 @@ const stateSchema = new mongoose.Schema(
     foodIds: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Foods", required: false },
     ],
+    activitiesIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "activity",
+        required: false,
+      },
+    ],
+    hotelsIds: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Hotel", required: false },
+    ],
   },
   { timestamps: true }
 );

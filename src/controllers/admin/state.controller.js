@@ -33,6 +33,16 @@ const createState = async (req, res) => {
         id.replace(/['"]+/g, "")
       );
     }
+    if (typeof stateData.activitiesIds === "string") {
+      stateData.activitiesIds = JSON.parse(stateData.activitiesIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof stateData.hotelsIds === "string") {
+      stateData.hotelsIds = JSON.parse(stateData.hotelsIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
 
     const state = new State(stateData);
     await state.save();
@@ -52,7 +62,9 @@ const getAllStates = async (req, res) => {
 
       .populate("cityIds", "name")
       .populate("placeIds", "name")
-      .populate("foodIds", "name");
+      .populate("foodIds", "name")
+      .populate("activitiesIds", "name")
+      .populate("hotelsIds", "name");
 
     res.status(200).json({ success: true, states });
   } catch (err) {
@@ -68,7 +80,9 @@ const getStateById = async (req, res) => {
     const state = await State.findById(req.params.id)
       .populate("cityIds", "name")
       .populate("placeIds", "name")
-      .populate("foodIds", "name");
+      .populate("foodIds", "name")
+      .populate("activitiesIds", "name")
+      .populate("hotelsIds", "name");
     if (!state) return res.status(404).json({ message: "State not found" });
     res.status(200).json({ success: true, state });
   } catch (err) {
@@ -107,6 +121,16 @@ const updateState = async (req, res) => {
     }
     if (typeof updateData.foodIds === "string") {
       updateData.foodIds = JSON.parse(updateData.foodIds).map((id) =>
+        id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof updateData.activitiesIds === "string") {
+      updateData.activitiesIds = JSON.parse(updateData.activitiesIds).map(
+        (id) => id.replace(/['"]+/g, "")
+      );
+    }
+    if (typeof updateData.hotelsIds === "string") {
+      updateData.hotelsIds = JSON.parse(updateData.hotelsIds).map((id) =>
         id.replace(/['"]+/g, "")
       );
     }
