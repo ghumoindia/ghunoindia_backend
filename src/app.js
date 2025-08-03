@@ -16,6 +16,7 @@ const citiesListRoutes = require("./routes/user/citiesList.routes");
 const hotelsRoutes = require("./routes/admin/hotels.routes");
 const hotelsListRoutes = require("./routes/user/hotels.routes");
 const activityListRoutes = require("./routes/user/activities.routes");
+const destinationRoutes = require("./routes/admin/destination.routes");
 
 const { adminUrl, userUrl } = require("./constant");
 // Middleware
@@ -33,6 +34,7 @@ app.use(`${adminUrl}/places`, places);
 app.use(`${adminUrl}/foods`, foods);
 app.use(`${adminUrl}/activity`, activityRoutes);
 app.use(`${adminUrl}/hotels`, hotelsRoutes);
+app.use(`${adminUrl}/destination`, destinationRoutes);
 
 //user Routes
 app.use(`${userUrl}/state`, stateListRoutes);
