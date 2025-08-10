@@ -17,6 +17,8 @@ const hotelsRoutes = require("./routes/admin/hotels.routes");
 const hotelsListRoutes = require("./routes/user/hotels.routes");
 const activityListRoutes = require("./routes/user/activities.routes");
 const destinationRoutes = require("./routes/admin/destination.routes");
+const travelCalenderRoutes = require("./routes/admin/calender.routes");
+const travelCalenderListRoutes = require("./routes/user/calender.routes");
 
 const { adminUrl, userUrl } = require("./constant");
 // Middleware
@@ -35,13 +37,16 @@ app.use(`${adminUrl}/foods`, foods);
 app.use(`${adminUrl}/activity`, activityRoutes);
 app.use(`${adminUrl}/hotels`, hotelsRoutes);
 app.use(`${adminUrl}/destination`, destinationRoutes);
+app.use(`${adminUrl}/calender`, travelCalenderRoutes);
 
 //user Routes
 app.use(`${userUrl}/state`, stateListRoutes);
 app.use(`${userUrl}/places`, placesListRoutes);
+
 app.use(`${userUrl}/foods`, foodsListRoutes);
 app.use(`${userUrl}/cities`, citiesListRoutes);
 app.use(`${userUrl}/hotels`, hotelsListRoutes);
 app.use(`${userUrl}/activity`, activityListRoutes);
+app.use(`${userUrl}/calender`, travelCalenderListRoutes);
 
 module.exports = app;
