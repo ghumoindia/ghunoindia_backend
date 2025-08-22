@@ -19,6 +19,9 @@ const activityListRoutes = require("./routes/user/activities.routes");
 const destinationRoutes = require("./routes/admin/destination.routes");
 const travelCalenderRoutes = require("./routes/admin/calender.routes");
 const travelCalenderListRoutes = require("./routes/user/calender.routes");
+const destinationListRoutes = require("./routes/user/destinations.routes");
+const experienceRoutes = require("./routes/admin/experience.routes");
+const experienceListRoutes = require("./routes/user/experience.routes");
 
 const { adminUrl, userUrl } = require("./constant");
 // Middleware
@@ -38,15 +41,17 @@ app.use(`${adminUrl}/activity`, activityRoutes);
 app.use(`${adminUrl}/hotels`, hotelsRoutes);
 app.use(`${adminUrl}/destination`, destinationRoutes);
 app.use(`${adminUrl}/calender`, travelCalenderRoutes);
+app.use(`${adminUrl}/experience`, experienceRoutes);
 
 //user Routes
 app.use(`${userUrl}/state`, stateListRoutes);
 app.use(`${userUrl}/places`, placesListRoutes);
-
+app.use(`${userUrl}/destinations`, destinationListRoutes);
 app.use(`${userUrl}/foods`, foodsListRoutes);
 app.use(`${userUrl}/cities`, citiesListRoutes);
 app.use(`${userUrl}/hotels`, hotelsListRoutes);
 app.use(`${userUrl}/activity`, activityListRoutes);
 app.use(`${userUrl}/calender`, travelCalenderListRoutes);
+app.use(`${userUrl}/experience`, experienceListRoutes);
 
 module.exports = app;
