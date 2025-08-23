@@ -26,7 +26,16 @@ const experienceListRoutes = require("./routes/user/experience.routes");
 const { adminUrl, userUrl, Core_config } = require("./constant");
 // Middleware
 // app.use(cors());
-app.use(cors(Core_config));
+app.use(
+  cors({
+    origin: ["https://www.ghumoindia.in", "https://admin.ghumoindia.in"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
+
+// app.use(cors(Core_config));
 // app.options("*", cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
