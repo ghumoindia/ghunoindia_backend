@@ -30,8 +30,9 @@ app.use(
   cors({
     origin: ["https://www.ghumoindia.in", "https://admin.ghumoindia.in"],
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "credentials"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
   })
 );
 
