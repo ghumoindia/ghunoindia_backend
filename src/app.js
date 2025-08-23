@@ -28,10 +28,10 @@ const { adminUrl, userUrl } = require("./constant");
 // app.use(cors());
 app.use(
   cors({
-    origin: ["https://admin.ghumoindia.in", "https://www.ghumoindia.in"], // your domains
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "credentials"],
+    origin: ["http://localhost:5173", "https://admin.ghumoindia.in"],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
 app.use(express.json());
