@@ -27,7 +27,7 @@ const { adminUrl, userUrl, Core_config } = require("./constant");
 // Middleware
 // app.use(cors());
 app.use(cors(Core_config));
-app.options("*", cors(Core_config));
+// app.options("*", cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
