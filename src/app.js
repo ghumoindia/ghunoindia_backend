@@ -23,17 +23,11 @@ const destinationListRoutes = require("./routes/user/destinations.routes");
 const experienceRoutes = require("./routes/admin/experience.routes");
 const experienceListRoutes = require("./routes/user/experience.routes");
 
-const { adminUrl, userUrl } = require("./constant");
+const { adminUrl, userUrl, Core_config } = require("./constant");
 // Middleware
 // app.use(cors());
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://admin.ghumoindia.in"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  })
-);
+app.use(cors(Core_config));
+app.options("*", cors(Core_config));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
