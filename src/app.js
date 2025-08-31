@@ -28,7 +28,11 @@ const { adminUrl, userUrl, Core_config } = require("./constant");
 // app.use(cors());
 app.use(
   cors({
-    origin: ["https://www.ghumoindia.in", "https://admin.ghumoindia.in"],
+    origin: [
+      "https://ghumoindia.in",
+      "https://www.ghumoindia.in",
+      "https://admin.ghumoindia.in",
+    ],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization", "credentials"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
